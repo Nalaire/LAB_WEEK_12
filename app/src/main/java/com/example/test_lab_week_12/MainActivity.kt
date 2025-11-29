@@ -47,7 +47,9 @@ class MainActivity : AppCompatActivity() {
                     movieViewModel.popularMovies.collect {
                         // add the list of movies to the adapter
                             movies ->
-                        movieAdapter.addMovies(movies)
+                        // Filter: sort by popularity descending
+                        val sortedMovies = movies.sortedByDescending { it.popularity }
+                        movieAdapter.addMovies(sortedMovies)
                     }
                 }
                 launch {
@@ -63,6 +65,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun openMovieDetails(movie: Movie) {
         val intent = Intent(this, DetailsActivity::class.java).apply {
             putExtra(DetailsActivity.EXTRA_TITLE, movie.title)
